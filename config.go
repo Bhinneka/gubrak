@@ -3,29 +3,21 @@ package gubrak
 import (
 	"encoding/json"
 	"io/ioutil"
-	"os"
 )
 
 // Config struct
 type Config struct {
-	BaseURL string            `json:"baseUrl"`
+	URL     string            `json:"url"`
 	Headers map[string]string `json:"headers"`
+	Payload interface{}       `json:"payload"`
 }
 
 // LoadConfig for load config from json file
-func LoadConfig() (*Config, error) {
-	file, err := os.Open("config.json")
+func LoadConfig(source string) (*Config, error) {
+	jsonData, err := ioutil.ReadFile(source)
 
 	if err != nil {
 		return nil, ErrorConfigNotFound
-	}
-
-	defer file.Close()
-
-	jsonData, err := ioutil.ReadAll(file)
-
-	if err != nil {
-		return nil, err
 	}
 
 	var config Config

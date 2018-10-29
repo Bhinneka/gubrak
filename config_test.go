@@ -5,7 +5,7 @@ import (
 )
 
 func TestConfig(t *testing.T) {
-	config, err := LoadConfig()
+	config, err := LoadConfig("config.json")
 
 	if err != nil {
 		t.Error("load config should not error")
