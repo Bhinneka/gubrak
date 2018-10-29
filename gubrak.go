@@ -15,38 +15,40 @@ const (
 type Gubrak struct {
 	client *Client
 	config *Config
+	args   *Argument
 }
 
 // New Gubrak
-func New(timeout time.Duration, source string) (*Gubrak, error) {
-	config, err := LoadConfig(source)
+func New(timeout time.Duration, args *Argument) (*Gubrak, error) {
+	config, err := LoadConfig(args.Config)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return &Gubrak{client: NewClient(timeout), config: config}, nil
+	return &Gubrak{client: NewClient(timeout), args: args, config: config}, nil
 }
 
 // Run method
-func (g *Gubrak) Run(args *Argument) {
+func (g *Gubrak) Run() {
 
 	var (
 		//payload *bytes.Buffer
 		x uint64
 		y uint64
 	)
+
 	start := time.Now()
 
-	jobs := make(chan *http.Response, args.RequestNum)
-	results := make(chan *http.Response, args.RequestNum)
+	jobs := make(chan *http.Response, g.args.RequestNum)
+	results := make(chan *http.Response, g.args.RequestNum)
 
-	for x = 1; x <= args.RequestNum; x++ {
+	for x = 1; x <= g.args.RequestNum; x++ {
 		go Consume(x, jobs, results)
 	}
 
-	if len(args.URL) <= 0 {
-		args.URL = g.config.URL
+	if len(g.args.URL) <= 0 {
+		g.args.URL = g.config.URL
 	}
 
 	// if g.config.Payload != nil {
@@ -55,9 +57,9 @@ func (g *Gubrak) Run(args *Argument) {
 	// 	payload = bytes.NewBuffer(pl)
 	// }
 
-	go Scan(jobs, g.client, args.Method, args.URL, nil, g.config.Headers, args.RequestNum)
+	go Scan(jobs, g.client, g.args.Method, g.args.URL, nil, g.config.Headers, g.args.RequestNum)
 
-	for y = 1; y <= args.RequestNum; y++ {
+	for y = 1; y <= g.args.RequestNum; y++ {
 		res := <-results
 		fmt.Println("Status ", res.StatusCode)
 	}
