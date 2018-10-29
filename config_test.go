@@ -5,7 +5,7 @@ import (
 )
 
 func TestConfig(t *testing.T) {
-	config, err := LoadConfig("config.json")
+	config, err := LoadConfig("example.config.json")
 
 	if err != nil {
 		t.Error("load config should not error")
@@ -14,7 +14,7 @@ func TestConfig(t *testing.T) {
 	expectedBaseURL := "http://example.com"
 	expectedAuthorization := "Basic exnfekeoeoeojsjalaljahhd"
 
-	if config.BaseURL != expectedBaseURL {
+	if config.URL != expectedBaseURL {
 		t.Error("expectedBaseURL should equal config.BaseURL")
 	}
 
