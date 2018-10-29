@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/Bhinneka/gubrak"
 )
@@ -14,12 +15,15 @@ func main() {
 		args.Help()
 	}
 
-	g, err := gubrak.New(5, "../config.json")
+	fmt.Println(args)
+
+	g, err := gubrak.New(5, args)
 
 	if err != nil {
 		fmt.Println(err)
 		args.Help()
+		os.Exit(0)
 	}
 
-	g.Run(args)
+	g.Run()
 }
