@@ -43,4 +43,4 @@ go get -U github.com/Bhinneka/gubrak/cmd
 ##
 
 ### Author
-wuriyanto musobar https://github.com/wuriyanto48
+Wuriyanto musobar https://github.com/wuriyanto48
