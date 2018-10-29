@@ -37,7 +37,7 @@ go get -U github.com/Bhinneka/gubrak/cmd
 - `-m` HTTP method, example `-m POST` or `-m post`
 - `-r` Size of Concurrent `request`, example `-r 1000`
 - `-c` `config.json` location, example `-c /Users/wurianto/Documents/config.json`
-- `-h` show `Help`, example `gubrak -h`
+- `-h` show `Help`, example `./gubrak -h`
 
 ##
 
