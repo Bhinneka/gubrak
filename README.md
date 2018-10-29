@@ -22,7 +22,7 @@ go get -U github.com/Bhinneka/gubrak/cmd
 		"from": "Bob",
 		"content": {
 			"header": "This is Message 3",
-			"body": "Hello Willy"
+			"body": "Hello There"
 		}
 	}
 }
