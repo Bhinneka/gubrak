@@ -11,7 +11,7 @@ type Client struct {
 	httpClient *http.Client
 }
 
-// newClient function for intialize httpRequest object
+// NewClient function for intialize Client object
 // Paramter, timeout in time.Duration
 func NewClient(timeout time.Duration) *Client {
 	return &Client{
@@ -19,7 +19,7 @@ func NewClient(timeout time.Duration) *Client {
 	}
 }
 
-// newReq function for initalize http request,
+// request function for initalize http request,
 // paramters, http method, uri path, body, and headers
 func (c *Client) request(method string, fullPath string, body io.Reader, headers map[string]string) (*http.Request, error) {
 	req, err := http.NewRequest(method, fullPath, body)
