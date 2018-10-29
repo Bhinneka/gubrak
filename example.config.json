@@ -1,8 +1,15 @@
 {
-    "baseUrl": "http://example.com",
+    "url": "http://example.com",
     "headers": {
         "Authorization": "Basic exnfekeoeoeojsjalaljahhd",
         "Content-Type": "application/json",
         "Accept": "application/json"
-    }
+    },
+	"payload": {
+		"from": "Bob",
+		"content": {
+			"header": "This is Message 3",
+			"body": "Hello Willy"
+		}
+	}
 }
