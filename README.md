@@ -2,11 +2,18 @@
 
 an experimental `Command Line performance testing tool` for your services. What this means, this `tool` will run concurrently againts your service.
 
+### TODO
+- Better code
+- Writing test
+- Better output
+
 ### Usage
 
 - build from source
 ```shell
-go get -U github.com/Bhinneka/gubrak/cmd
+$ go get github.com/Bhinneka/gubrak
+
+$ go install github.com/Bhinneka/gubrak/cmd
 ```
 
 - create `config.json` file with signature like this:
