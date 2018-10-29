@@ -7,14 +7,19 @@ import (
 )
 
 func main() {
-	client := gubrak.NewClient(5)
-
-	res, err := client.Do("GET", "https://jsonplaceholder.typicode.com/users/1", nil, nil, nil)
+	args, err := gubrak.ParseArgument()
 
 	if err != nil {
 		fmt.Println(err)
+		args.Help()
 	}
 
-	fmt.Println("------")
-	fmt.Println(res.StatusCode)
+	g, err := gubrak.New(5, "../config.json")
+
+	if err != nil {
+		fmt.Println(err)
+		args.Help()
+	}
+
+	g.Run(args)
 }
