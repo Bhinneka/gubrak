@@ -13,7 +13,7 @@ an experimental `Command Line performance testing tool` for your services. What 
 ```shell
 $ go get github.com/Bhinneka/gubrak
 
-$ go install github.com/Bhinneka/gubrak/cmd
+$ go install github.com/Bhinneka/gubrak/cmd/gubrak
 ```
 
 - create `config.json` file with signature like this:
