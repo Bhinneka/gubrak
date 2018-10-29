@@ -37,19 +37,6 @@ func ParseArgument() (*Argument, error) {
 		return &Argument{Help: flag.Usage}, errors.New("	(-m) method parameter required")
 	}
 
-	// if len(args) <= 1 {
-	// 	return &Argument{Help: flag.Usage}, errors.New("	not enough arguments")
-	// }
-
-	// arg := args[1:]
-
-	// var ipAddress string
-	// if len(arg) > 2 {
-	// 	ipAddress = arg[2]
-	// } else {
-	// 	ipAddress = arg[0]
-	// }
-
 	flag.Parse()
 
 	return &Argument{Method: strings.ToUpper(*method), Config: *configPath, URL: *urlPath, RequestNum: *numOfRequest, Help: flag.Usage}, nil
