@@ -1,8 +1,0 @@
-{
-    "baseUrl": "http://example.com",
-    "headers": {
-        "Authorization": "Basic exnfekeoeoeojsjalaljahhd",
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-    }
-}
