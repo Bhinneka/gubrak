@@ -1,6 +1,6 @@
 ## Gubrak
 
-an experimental `Command Line` performance testing tool for your services. What this means, this `tool` will run concurrently againts your service
+an experimental `Command Line performance testing tool` for your services. What this means, this `tool` will run concurrently againts your service.
 
 ### Usage
 
@@ -30,13 +30,14 @@ go get -U github.com/Bhinneka/gubrak/cmd
 
 - run `gubrak`
 ```shell
-./gubrak -m get -c /Users/wurianto/Documents/config.json
+./gubrak -m get -c /Users/wurianto/Documents/config.json -u https://jsonplaceholder.typicode.com/posts
 ```
 
 ### List flag and arguments
-- `-m` HTTP method, example `-m POST` or `-m post`
-- `-r` Size of Concurrent `request`, example `-r 1000`
-- `-c` `config.json` location, example `-c /Users/wurianto/Documents/config.json`
+- `-m` (default `GET`) HTTP method, example `-m POST` or `-m post`
+- `-r` (default `10`) Size of Concurrent `request`, example `-r 1000`
+- `-c` `config.json` (default `config.json`) location, example `-c /Users/wurianto/Documents/config.json`
+- `-u` `URL full with path` (default in `config.json`), example `-u https://jsonplaceholder.typicode.com/posts`
 - `-h` show `Help`, example `./gubrak -h`
 
 ##
