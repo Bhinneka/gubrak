@@ -12,9 +12,9 @@ type Client struct {
 	httpClient *http.Client
 }
 
-// New function for intialize httpRequest object
+// newClient function for intialize httpRequest object
 // Paramter, timeout in time.Duration
-func New(timeout time.Duration) *Client {
+func newClient(timeout time.Duration) *Client {
 	return &Client{
 		httpClient: &http.Client{Timeout: time.Second * timeout},
 	}
