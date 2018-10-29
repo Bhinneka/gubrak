@@ -1,7 +1,6 @@
 package gubrak
 
 import (
-	"encoding/json"
 	"io"
 	"net/http"
 	"time"
@@ -14,7 +13,7 @@ type Client struct {
 
 // newClient function for intialize httpRequest object
 // Paramter, timeout in time.Duration
-func newClient(timeout time.Duration) *Client {
+func NewClient(timeout time.Duration) *Client {
 	return &Client{
 		httpClient: &http.Client{Timeout: time.Second * timeout},
 	}
@@ -36,24 +35,18 @@ func (c *Client) request(method string, fullPath string, body io.Reader, headers
 }
 
 // Do function for call http request
-func (c *Client) Do(method, path string, body io.Reader, v interface{}, headers map[string]string) error {
+func (c *Client) Do(method, path string, body io.Reader, v interface{}, headers map[string]string) (*http.Response, error) {
 	req, err := c.request(method, path, body, headers)
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	res, err := c.httpClient.Do(req)
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	defer res.Body.Close()
-
-	if v != nil {
-		return json.NewDecoder(res.Body).Decode(v)
-	}
-
-	return nil
+	return res, nil
 }
