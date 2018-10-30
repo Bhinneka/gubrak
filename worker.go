@@ -1,8 +1,9 @@
 package gubrak
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 )
 
@@ -17,12 +18,21 @@ func Scan(jobs chan<- *http.Response,
 	client *Client,
 	method string,
 	path string,
-	payload io.Reader,
+	payload interface{},
 	headers map[string]string,
 	requestSize uint64) {
-	var i uint64
+
+	var (
+		i uint64
+	)
+
 	for i = 1; i <= requestSize; i++ {
-		response, err := client.Do(method, path, payload, nil, headers)
+
+		pl, _ := json.Marshal(payload)
+
+		p := bytes.NewBuffer(pl)
+
+		response, err := client.Do(method, path, p, headers)
 		if err != nil {
 			fmt.Println(err)
 		}

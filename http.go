@@ -35,7 +35,7 @@ func (c *Client) request(method string, fullPath string, body io.Reader, headers
 }
 
 // Do function for call http request
-func (c *Client) Do(method, path string, body io.Reader, v interface{}, headers map[string]string) (*http.Response, error) {
+func (c *Client) Do(method, path string, body io.Reader, headers map[string]string) (*http.Response, error) {
 	req, err := c.request(method, path, body, headers)
 
 	if err != nil {

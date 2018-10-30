@@ -9,6 +9,9 @@ import (
 const (
 	// DefaultRequestNum total default concurrent request
 	DefaultRequestNum uint64 = 10
+
+	// Version for -v options
+	Version = "zero"
 )
 
 // Gubrak struct
@@ -33,12 +36,18 @@ func New(timeout time.Duration, args *Argument) (*Gubrak, error) {
 func (g *Gubrak) Run() {
 
 	var (
-		//payload *bytes.Buffer
 		x uint64
 		y uint64
 	)
 
 	start := time.Now()
+
+	/*
+		Buffered channels are useful when you know
+		how many goroutines you have launched,
+		want to limit the number of goroutines you will launch,
+		or want to limit the amount of work that is queued up.
+	*/
 
 	jobs := make(chan *http.Response, g.args.RequestNum)
 	results := make(chan *http.Response, g.args.RequestNum)
@@ -51,13 +60,11 @@ func (g *Gubrak) Run() {
 		g.args.URL = g.config.URL
 	}
 
-	// if g.config.Payload != nil {
-	// 	pl, _ := json.Marshal(g.config.Payload)
-
-	// 	payload = bytes.NewBuffer(pl)
-	// }
-
-	go Scan(jobs, g.client, g.args.Method, g.args.URL, nil, g.config.Headers, g.args.RequestNum)
+	if g.config.Payload != nil {
+		go Scan(jobs, g.client, g.args.Method, g.args.URL, g.config.Payload, g.config.Headers, g.args.RequestNum)
+	} else {
+		go Scan(jobs, g.client, g.args.Method, g.args.URL, nil, g.config.Headers, g.args.RequestNum)
+	}
 
 	for y = 1; y <= g.args.RequestNum; y++ {
 		res := <-results
