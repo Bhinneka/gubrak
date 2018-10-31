@@ -14,6 +14,8 @@ an experimental `Command Line performance testing tool` for your services. What 
 $ go get github.com/Bhinneka/gubrak
 
 $ go install github.com/Bhinneka/gubrak/cmd/gubrak
+
+$ ./gubrak -v
 ```
 
 - create `config.json` file with signature like this:
