@@ -9,7 +9,7 @@ an experimental `Command Line performance testing tool` for your services. What 
 
 ### Usage
 
-- build from source
+- build `binary` from source
 ```shell
 $ go get github.com/Bhinneka/gubrak
 
