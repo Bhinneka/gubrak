@@ -61,10 +61,13 @@ func (g *Gubrak) Run() {
 	}
 
 	if g.config.Payload != nil {
-		go Scan(jobs, g.client, g.args.Method, g.args.URL, g.config.Payload, g.config.Headers, g.args.RequestNum)
+		Scan(jobs, g.client, g.args.Method, g.args.URL, g.config.Payload, g.config.Headers, g.args.RequestNum)
 	} else {
-		go Scan(jobs, g.client, g.args.Method, g.args.URL, nil, g.config.Headers, g.args.RequestNum)
+		Scan(jobs, g.client, g.args.Method, g.args.URL, nil, g.config.Headers, g.args.RequestNum)
 	}
+
+	defer close(jobs)
+	defer close(results)
 
 	for y = 1; y <= g.args.RequestNum; y++ {
 		res := <-results
