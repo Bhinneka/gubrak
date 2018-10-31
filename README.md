@@ -3,7 +3,10 @@
 an experimental `Command Line performance testing tool` for your services. What this means, this `tool` will run concurrently againts your service.
 
 ### Gubrak Gopher
-  ![alt text](./files/gubrak.png)
+
+<p align="center">
+  <img width="460" height="400" src="./files/gubrak.png">
+</p>
 
 ### TODO
 - Better code
