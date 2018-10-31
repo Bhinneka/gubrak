@@ -32,14 +32,15 @@ func Scan(jobs chan<- *http.Response,
 
 		p := bytes.NewBuffer(pl)
 
-		response, err := client.Do(method, path, p, headers)
-		if err != nil {
-			fmt.Println(err)
-		}
-		jobs <- response
+		go func(p *bytes.Buffer) {
+			response, err := client.Do(method, path, p, headers)
+			if err != nil {
+				fmt.Println(err)
+			}
+			jobs <- response
+		}(p)
 	}
 
-	close(jobs)
 }
 
 // Consume func
