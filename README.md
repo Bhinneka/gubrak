@@ -45,6 +45,7 @@ $ go install github.com/Bhinneka/gubrak/cmd/gubrak
 - `-r` (default `10`) Size of Concurrent `request`, example `-r 1000`
 - `-c` `config.json` (default `config.json`) location, example `-c /Users/wurianto/Documents/config.json`
 - `-u` `URL full with path` (default in `config.json`), example `-u https://jsonplaceholder.typicode.com/posts`
+- `-v` show `gubrak` version, example `gubrak -v`
 - `-h` show `Help`, example `./gubrak -h`
 
 ##
