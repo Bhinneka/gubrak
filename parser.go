@@ -35,7 +35,7 @@ func ParseArgument() (*Argument, error) {
 	flag.Usage = func() {
 
 		fmt.Fprintln(os.Stderr, "	-m", "http method")
-		fmt.Fprintln(os.Stderr, "	-r", "number of request, default = 100")
+		fmt.Fprintln(os.Stderr, "	-r", "number of request, default = 10")
 		fmt.Fprintln(os.Stderr, "	-u", "full url path")
 		fmt.Fprintln(os.Stderr, "	-c", "your config path, default config.json")
 		fmt.Fprintln(os.Stderr, "	-v", "show gubrak version")
