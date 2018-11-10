@@ -21,7 +21,11 @@ func New(timeout time.Duration, args *Argument) (*Gubrak, error) {
 		return nil, err
 	}
 
-	return &Gubrak{client: NewClient(timeout), args: args, config: config}, nil
+	return &Gubrak{
+		client: NewClient(timeout),
+		args:   args,
+		config: config,
+	}, nil
 }
 
 // Run method
