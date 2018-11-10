@@ -24,7 +24,7 @@ func Scan(jobs chan<- Output,
 
 		p := bytes.NewBuffer(pl)
 
-		// go routing using closure, This allows each goroutine to have its own copy of  p (*bytes.Buffer)
+		// go routine using closure, This allows each goroutine to have its own copy of  p (*bytes.Buffer)
 		go func(p *bytes.Buffer) {
 			response, err := client.Do(method, path, p, headers)
 			jobs <- Output{Response: response, Error: err}
