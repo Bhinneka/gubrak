@@ -3,18 +3,10 @@ package gubrak
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
-	"net/http"
 )
 
-// Result struct
-type Result struct {
-	TotalSuccess uint64
-	TotalFail    uint64
-}
-
 // Scan func
-func Scan(jobs chan<- *http.Response,
+func Scan(jobs chan<- Output,
 	client *Client,
 	method string,
 	path string,
@@ -32,19 +24,17 @@ func Scan(jobs chan<- *http.Response,
 
 		p := bytes.NewBuffer(pl)
 
+		// go routing using closure, This allows each goroutine to have its own copy of  p (*bytes.Buffer)
 		go func(p *bytes.Buffer) {
 			response, err := client.Do(method, path, p, headers)
-			if err != nil {
-				fmt.Println(err)
-			}
-			jobs <- response
+			jobs <- Output{Response: response, Error: err}
 		}(p)
 	}
 
 }
 
 // Consume func
-func Consume(id uint64, jobs <-chan *http.Response, results chan<- *http.Response) {
+func Consume(id uint64, jobs <-chan Output, results chan<- Output) {
 	for job := range jobs {
 		results <- job
 	}
