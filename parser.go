@@ -48,5 +48,12 @@ func ParseArgument() (*Argument, error) {
 
 	flag.Parse()
 
-	return &Argument{Method: strings.ToUpper(*method), Config: *configPath, URL: *urlPath, RequestNum: *numOfRequest, ShowVersion: *showVersion, Help: flag.Usage}, nil
+	return &Argument{
+		Method:      strings.ToUpper(*method),
+		Config:      *configPath,
+		URL:         *urlPath,
+		RequestNum:  *numOfRequest,
+		ShowVersion: *showVersion,
+		Help:        flag.Usage,
+	}, nil
 }
