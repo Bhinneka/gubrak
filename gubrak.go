@@ -1,17 +1,9 @@
 package gubrak
 
 import (
+	"encoding/json"
 	"fmt"
-	"net/http"
 	"time"
-)
-
-const (
-	// DefaultRequestNum total default concurrent request
-	DefaultRequestNum uint64 = 10
-
-	// Version for -v options
-	Version = "zero"
 )
 
 // Gubrak struct
@@ -49,8 +41,8 @@ func (g *Gubrak) Run() {
 		or want to limit the amount of work that is queued up.
 	*/
 
-	jobs := make(chan *http.Response, g.args.RequestNum)
-	results := make(chan *http.Response, g.args.RequestNum)
+	jobs := make(chan Output, g.args.RequestNum)
+	results := make(chan Output, g.args.RequestNum)
 
 	for x = 1; x <= g.args.RequestNum; x++ {
 		go Consume(x, jobs, results)
@@ -66,12 +58,32 @@ func (g *Gubrak) Run() {
 		Scan(jobs, g.client, g.args.Method, g.args.URL, nil, g.config.Headers, g.args.RequestNum)
 	}
 
+	// close all channel, after all jobs already sent
 	defer close(jobs)
 	defer close(results)
 
 	for y = 1; y <= g.args.RequestNum; y++ {
 		res := <-results
-		fmt.Println("Status ", res.StatusCode)
+		if res.Error != nil {
+			fmt.Println("Status Error", res.Error)
+			return
+		}
+
+		// create variable target, for handle value from http.Response.Body
+		var target interface{}
+
+		// decode body into target
+		_ = json.NewDecoder(res.Response.Body).Decode(&target)
+
+		//TODO
+		// - formated output
+		// -
+		// print result
+		if res.Response.StatusCode >= 400 {
+			fmt.Println(target)
+		}
+
+		fmt.Println("Status ", res.Response.StatusCode)
 	}
 
 	fmt.Println("========================")
