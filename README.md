@@ -21,7 +21,7 @@ $ go get github.com/Bhinneka/gubrak
 
 $ go install github.com/Bhinneka/gubrak/cmd/gubrak
 
-$ ./gubrak -v
+$ gubrak -v
 ```
 
 - create `config.json` file with signature like this:
@@ -45,7 +45,7 @@ $ ./gubrak -v
 
 - run `gubrak`
 ```shell
-./gubrak -m get -c /Users/wurianto/Documents/config.json -u https://jsonplaceholder.typicode.com/posts
+$ gubrak -m get -c /Users/wurianto/Documents/config.json -u https://jsonplaceholder.typicode.com/posts -r 100
 ```
 
 ### List flag and arguments
