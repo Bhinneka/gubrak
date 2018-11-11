@@ -32,8 +32,9 @@ func New(timeout time.Duration, args *Argument) (*Gubrak, error) {
 func (g *Gubrak) Run() {
 
 	var (
-		x uint64
-		y uint64
+		x            uint64
+		y            uint64
+		totalRequest uint64
 	)
 
 	start := time.Now()
@@ -62,14 +63,14 @@ func (g *Gubrak) Run() {
 		Scan(jobs, g.client, g.args.Method, g.args.URL, nil, g.config.Headers, g.args.RequestNum)
 	}
 
-	// close all channel, after all jobs already sent
-	defer close(jobs)
-	defer close(results)
-
 	for y = 1; y <= g.args.RequestNum; y++ {
 		res := <-results
 		if res.Error != nil {
 			fmt.Println("Status Error", res.Error)
+			fmt.Println("========================")
+			elapsed := time.Since(start)
+			fmt.Println("Time : ", elapsed)
+			fmt.Printf("Total request succeed : %d of : %d\n", totalRequest, g.args.RequestNum)
 			return
 		}
 
@@ -88,9 +89,11 @@ func (g *Gubrak) Run() {
 		}
 
 		fmt.Println("Status ", res.Response.StatusCode)
+		totalRequest++
 	}
 
 	fmt.Println("========================")
 	elapsed := time.Since(start)
 	fmt.Println("Time : ", elapsed)
+	fmt.Printf("Total request succeed : %d of : %d\n", totalRequest, g.args.RequestNum)
 }
