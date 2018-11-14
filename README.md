@@ -15,7 +15,12 @@ an experimental `Command Line performance testing tool` for your services. What 
 
 ### Usage
 
-- build `binary` from source
+- Install from `Homebrew`
+```shell
+$ brew install Bhinneka/tool/gubrak
+```
+
+- Install `binary` from source
 ```shell
 $ go get github.com/Bhinneka/gubrak
 
