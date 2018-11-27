@@ -11,6 +11,7 @@ lint-prepare:
 lint:
 	@golangci-lint run \
 		--exclude-use-default=false \
+		--exclude="constant has an explicit type" \
 		--enable=golint \
 		--enable=gocyclo \
 		--enable=goconst \

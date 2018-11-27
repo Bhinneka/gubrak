@@ -2,10 +2,9 @@ package gubrak
 
 import "net/http"
 
-// DefaultRequestNum total default concurrent request
-const DefaultRequestNum uint64 = 10
-
 const (
+	// DefaultRequestNum total default concurrent request
+	DefaultRequestNum uint64 = 10
 	// Version for -v options
 	Version = "zero"
 )
