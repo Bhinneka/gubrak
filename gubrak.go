@@ -44,6 +44,8 @@ func (g *Gubrak) Run() {
 
 	jobs := make(chan Output, g.args.RequestNum)
 	results := make(chan Output, g.args.RequestNum)
+	defer close(jobs)
+	defer close(results)
 
 	for x := uint64(1); x <= g.args.RequestNum; x++ {
 		go Consume(x, jobs, results)
@@ -55,8 +57,7 @@ func (g *Gubrak) Run() {
 
 	Scan(jobs, g.client, g.args.Method, g.args.URL, g.config.Payload, g.config.Headers, g.args.RequestNum)
 
-	for y := uint64(1); y <= g.args.RequestNum; y++ {
-		res := <-results
+	for res := range results {
 		if res.Error != nil {
 			fmt.Println("Status Error", res.Error)
 			fmt.Println("========================")
