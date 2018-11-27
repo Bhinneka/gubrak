@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 )
 
-// Scan func
+// Scan func will doing the HTTP call to defined request url within the request body if exists
 func Scan(jobs chan<- Output,
 	client *Client,
 	method string,
@@ -33,7 +33,7 @@ func Scan(jobs chan<- Output,
 
 }
 
-// Consume func
+// Consume func will consume the result from Output from Scan function. This function only consume the channel results
 func Consume(id uint64, jobs <-chan Output, results chan<- Output) {
 	for job := range jobs {
 		results <- job
