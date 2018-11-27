@@ -21,10 +21,6 @@ type Argument struct {
 // ParseArgument for parse argument to Argument
 func ParseArgument() (*Argument, error) {
 
-	// var (
-	// 	showVersion bool
-	// )
-
 	numOfRequest := flag.Uint64("r", DefaultRequestNum, "number of thread")
 	method := flag.String("m", "GET", "http method")
 	urlPath := flag.String("u", "", "full url path")

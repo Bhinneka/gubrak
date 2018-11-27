@@ -31,11 +31,7 @@ func New(timeout time.Duration, args *Argument) (*Gubrak, error) {
 // Run method
 func (g *Gubrak) Run() {
 
-	var (
-		x            uint64
-		y            uint64
-		totalRequest uint64
-	)
+	var totalRequest uint64
 
 	start := time.Now()
 
@@ -49,7 +45,7 @@ func (g *Gubrak) Run() {
 	jobs := make(chan Output, g.args.RequestNum)
 	results := make(chan Output, g.args.RequestNum)
 
-	for x = 1; x <= g.args.RequestNum; x++ {
+	for x := uint64(1); x <= g.args.RequestNum; x++ {
 		go Consume(x, jobs, results)
 	}
 
@@ -57,13 +53,9 @@ func (g *Gubrak) Run() {
 		g.args.URL = g.config.URL
 	}
 
-	if g.config.Payload != nil {
-		Scan(jobs, g.client, g.args.Method, g.args.URL, g.config.Payload, g.config.Headers, g.args.RequestNum)
-	} else {
-		Scan(jobs, g.client, g.args.Method, g.args.URL, nil, g.config.Headers, g.args.RequestNum)
-	}
+	Scan(jobs, g.client, g.args.Method, g.args.URL, g.config.Payload, g.config.Headers, g.args.RequestNum)
 
-	for y = 1; y <= g.args.RequestNum; y++ {
+	for y := uint64(1); y <= g.args.RequestNum; y++ {
 		res := <-results
 		if res.Error != nil {
 			fmt.Println("Status Error", res.Error)
