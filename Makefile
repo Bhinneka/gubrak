@@ -18,7 +18,6 @@ lint:
 		./...
 
 # Testing
-
 .PHONY: unittest
 unittest:
 	@go test -short $(TEST_OPTS) ./...
