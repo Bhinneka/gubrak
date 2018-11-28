@@ -31,7 +31,15 @@ func New(timeout time.Duration, args *Argument) (*Gubrak, error) {
 // Run method
 func (g *Gubrak) Run() {
 
-	var totalRequest uint64
+	var (
+		avgDuration                      time.Duration // average overall duration when make a request
+		avgDNSLookup                     time.Duration // average time needed to DNS look-up
+		avgConnectionDuration            time.Duration //average duration to open connection (or to get an open connection if reusing it)
+		avgRequestDuration               time.Duration // average duration to write the request
+		avgGotResponseDuration           time.Duration // average duration after response sent by server
+		avgDelayBetweekRequestToResponse time.Duration // average delay duration between request made to response got
+		totalRequest                     uint64
+	)
 
 	start := time.Now()
 
@@ -56,14 +64,6 @@ func (g *Gubrak) Run() {
 	}
 
 	Scan(jobs, g.client, g.args.Method, g.args.URL, g.config.Payload, g.config.Headers, g.args.RequestNum)
-	var (
-		avgDuration                      time.Duration // average overall duration when make a request
-		avgDNSLookup                     time.Duration // average time needed to DNS look-up
-		avgConnectionDuration            time.Duration //average duration to open connection (or to get an open connection if reusing it)
-		avgRequestDuration               time.Duration // average duration to write the request
-		avgGotResponseDuration           time.Duration // average duration after response sent by server
-		avgDelayBetweekRequestToResponse time.Duration // average delay duration between request made to response got
-	)
 
 	for y := uint64(1); y <= g.args.RequestNum; y++ {
 		res := <-results
