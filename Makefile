@@ -38,4 +38,4 @@ uninstall:
 	@go clean -i ./...
 
 gubrak: $(SOURCES)
-	go build -o gubrak github.com/Bhineka/gubrak/cmd/gubrak
+	go build -o gubrak github.com/Bhinneka/gubrak/cmd/gubrak
