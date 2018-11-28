@@ -5,7 +5,7 @@ import (
 	"os"
 	"runtime"
 
-	"github.com/Bhinneka/gubrak"
+	"github.com/bxcodec/gubrak"
 )
 
 func main() {

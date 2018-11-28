@@ -56,8 +56,17 @@ func (g *Gubrak) Run() {
 	}
 
 	Scan(jobs, g.client, g.args.Method, g.args.URL, g.config.Payload, g.config.Headers, g.args.RequestNum)
+	var (
+		avgDuration                      time.Duration // average overall duration when make a request
+		avgDNSLookup                     time.Duration // average time needed to DNS look-up
+		avgConnectionDuration            time.Duration //average duration to open connection (or to get an open connection if reusing it)
+		avgRequestDuration               time.Duration // average duration to write the request
+		avgGotResponseDuration           time.Duration // average duration after response sent by server
+		avgDelayBetweekRequestToResponse time.Duration // average delay duration between request made to response got
+	)
 
-	for res := range results {
+	for y := uint64(1); y <= g.args.RequestNum; y++ {
+		res := <-results
 		if res.Error != nil {
 			fmt.Println("Status Error", res.Error)
 			fmt.Println("========================")
@@ -71,22 +80,40 @@ func (g *Gubrak) Run() {
 		var target interface{}
 
 		// decode body into target
-		_ = json.NewDecoder(res.Response.Body).Decode(&target)
+		_ = json.NewDecoder(res.Trace.HTTPResponse.Body).Decode(&target)
 
 		//TODO
 		// - formated output
 		// -
 		// print result
-		if res.Response.StatusCode >= 400 {
+		if res.Trace.HTTPResponse.StatusCode >= 400 {
 			fmt.Println(target)
 		}
 
-		fmt.Println("Status ", res.Response.StatusCode)
+		fmt.Println("Status ", res.Trace.HTTPResponse.StatusCode)
 		totalRequest++
+		avgDuration += res.Trace.Duration
+		avgDNSLookup += res.Trace.DnsDuration
+		avgConnectionDuration += res.Trace.ConnDuration
+		avgRequestDuration += res.Trace.ReqDuration
+		avgGotResponseDuration += res.Trace.ResDuration
+		avgDelayBetweekRequestToResponse += res.Trace.DelayDuration
 	}
 
+	avgDuration = avgDuration / time.Duration(totalRequest)
+	avgDNSLookup = avgDNSLookup / time.Duration(totalRequest)
+	avgConnectionDuration = avgConnectionDuration / time.Duration(totalRequest)
+	avgRequestDuration = avgRequestDuration / time.Duration(totalRequest)
+	avgGotResponseDuration = avgGotResponseDuration / time.Duration(totalRequest)
+	avgDelayBetweekRequestToResponse = avgDelayBetweekRequestToResponse / time.Duration(totalRequest)
 	fmt.Println("========================")
 	elapsed := time.Since(start)
-	fmt.Println("Time : ", elapsed)
+	fmt.Println("Time Masuk : ", elapsed)
+	fmt.Println("Average duration/request", avgDuration)
+	fmt.Println("Average time to DNSLookup/request", avgDNSLookup)
+	fmt.Println("Average time to open a connection/request", avgConnectionDuration)
+	fmt.Println("Average time to build a request/request", avgRequestDuration)
+	fmt.Println("Average time to get response/request", avgGotResponseDuration)
+	fmt.Println("Average time delay between request made and response got/request", avgDelayBetweekRequestToResponse)
 	fmt.Printf("Total request succeed : %d of : %d\n", totalRequest, g.args.RequestNum)
 }

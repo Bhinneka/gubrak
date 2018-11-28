@@ -26,8 +26,8 @@ func Scan(jobs chan<- Output,
 
 		// go routine using closure, This allows each goroutine to have its own copy of  p (*bytes.Buffer)
 		go func(p *bytes.Buffer) {
-			response, err := client.Do(method, path, p, headers)
-			jobs <- Output{Response: response, Error: err}
+			traceResult, err := client.do(method, path, p, headers)
+			jobs <- Output{Trace: traceResult, Error: err}
 		}(p)
 	}
 
@@ -35,7 +35,9 @@ func Scan(jobs chan<- Output,
 
 // Consume func will consume the result from Output from Scan function. This function only consume the channel results
 func Consume(id uint64, jobs <-chan Output, results chan<- Output) {
+
 	for job := range jobs {
 		results <- job
 	}
+
 }
