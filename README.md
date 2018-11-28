@@ -53,6 +53,14 @@ $ gubrak --version
 $ gubrak -m get -c /Users/wurianto/Documents/config.json -u https://jsonplaceholder.typicode.com/posts -r 100
 ```
 
+### Send 100 Concurrent HTTP Request  
+<p align="center">
+  <img width="460" height="60" src="./files/bhinneka_com.png">
+</p>
+<p align="center">
+  <img width="460" height="290" src="./files/result.png">
+</p>
+
 ### List flag and arguments
 - `-m | --method` (default `GET`) HTTP method, example `-m POST` or `-m post`
 - `-r` (default `10`) Size of Concurrent `request`, example `-r 1000`
@@ -62,6 +70,3 @@ $ gubrak -m get -c /Users/wurianto/Documents/config.json -u https://jsonplacehol
 - `-h | --help` show `Help`, example `./gubrak -h`
 
 ##
-
-### Author
-Wuriyanto musobar https://github.com/wuriyanto48
