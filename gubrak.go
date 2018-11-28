@@ -108,7 +108,7 @@ func (g *Gubrak) Run() {
 	avgDelayBetweekRequestToResponse = avgDelayBetweekRequestToResponse / time.Duration(totalRequest)
 	fmt.Println("========================")
 	elapsed := time.Since(start)
-	fmt.Println("Time Masuk : ", elapsed)
+	fmt.Println("Total all time: ", elapsed)
 	fmt.Println("Average duration/request", avgDuration)
 	fmt.Println("Average time to DNSLookup/request", avgDNSLookup)
 	fmt.Println("Average time to open a connection/request", avgConnectionDuration)
