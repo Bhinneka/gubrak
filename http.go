@@ -74,6 +74,9 @@ func (c *Client) do(method, path string, body io.Reader, headers map[string]stri
 	}
 	req = req.WithContext(httptrace.WithClientTrace(req.Context(), traceConfig))
 	res, err := c.httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
 	finish := time.Since(start)
 	resDuration = time.Since(gotResultTime)
 
@@ -81,7 +84,7 @@ func (c *Client) do(method, path string, body io.Reader, headers map[string]stri
 		HTTPResponse:  res,
 		Duration:      finish,
 		ConnDuration:  connDuration,
-		DnsDuration:   dnsDuration,
+		DNSDuration:   dnsDuration,
 		ReqDuration:   reqDuration,
 		ResDuration:   resDuration,
 		DelayDuration: delayDuration,
@@ -90,11 +93,12 @@ func (c *Client) do(method, path string, body io.Reader, headers map[string]stri
 	return tracingResult, nil
 }
 
+// Trace represent the struct of tracing data
 type Trace struct {
 	HTTPResponse  *http.Response
 	Duration      time.Duration
 	ConnDuration  time.Duration // connection setup(DNS lookup + Dial up) duration
-	DnsDuration   time.Duration // dns lookup duration
+	DNSDuration   time.Duration // dns lookup duration
 	ReqDuration   time.Duration // request "write" duration
 	ResDuration   time.Duration // response "read" duration
 	DelayDuration time.Duration // delay between response and request

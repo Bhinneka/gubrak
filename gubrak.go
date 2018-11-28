@@ -93,7 +93,7 @@ func (g *Gubrak) Run() {
 		fmt.Println("Status ", res.Trace.HTTPResponse.StatusCode)
 		totalRequest++
 		avgDuration += res.Trace.Duration
-		avgDNSLookup += res.Trace.DnsDuration
+		avgDNSLookup += res.Trace.DNSDuration
 		avgConnectionDuration += res.Trace.ConnDuration
 		avgRequestDuration += res.Trace.ReqDuration
 		avgGotResponseDuration += res.Trace.ResDuration
