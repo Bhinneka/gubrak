@@ -26,7 +26,7 @@ $ go get github.com/Bhinneka/gubrak
 
 $ go install github.com/Bhinneka/gubrak/cmd/gubrak
 
-$ gubrak -v
+$ gubrak --version
 ```
 
 - create `config.json` file with signature like this:
@@ -54,12 +54,12 @@ $ gubrak -m get -c /Users/wurianto/Documents/config.json -u https://jsonplacehol
 ```
 
 ### List flag and arguments
-- `-m` (default `GET`) HTTP method, example `-m POST` or `-m post`
+- `-m | --method` (default `GET`) HTTP method, example `-m POST` or `-m post`
 - `-r` (default `10`) Size of Concurrent `request`, example `-r 1000`
-- `-c` `config.json` (default `config.json`) location, example `-c /Users/wurianto/Documents/config.json`
-- `-u` `URL full with path` (default in `config.json`), example `-u https://jsonplaceholder.typicode.com/posts`
-- `-v` show `gubrak` version, example `gubrak -v`
-- `-h` show `Help`, example `./gubrak -h`
+- `-c | --config` `config.json` (default `config.json`) location, example `-c /Users/wurianto/Documents/config.json`
+- `-u | --url` `URL full with path` (default in `config.json`), example `-u https://jsonplaceholder.typicode.com/posts`
+- `-v | --version` show `gubrak` version, example `gubrak -v`
+- `-h | --help` show `Help`, example `./gubrak -h`
 
 ##
 
