@@ -68,11 +68,11 @@ func (g *Gubrak) Run() {
 	for y := uint64(1); y <= g.args.RequestNum; y++ {
 		res := <-results
 		if res.Error != nil {
-			fmt.Println("Status Error", res.Error)
-			fmt.Println("========================")
+			fmt.Printf("\033[31m%s%s\033[0m%s", "Status Error: ", res.Error.Error(), "\n")
+			fmt.Printf("\033[32m%s\033[0m", "========================\n")
 			elapsed := time.Since(start)
-			fmt.Println("Time : ", elapsed)
-			fmt.Printf("Total request succeed : %d of : %d\n", totalRequest, g.args.RequestNum)
+			fmt.Printf("\033[33m%s%.3f\033[0m%s", "Time : ", elapsed.Seconds(), " seconds\n")
+			fmt.Printf("\033[32m%s%d%s%d\033[0m%s", "Total request succeed : ", totalRequest, " of ", g.args.RequestNum, "\n")
 			return
 		}
 
@@ -87,10 +87,12 @@ func (g *Gubrak) Run() {
 		// -
 		// print result
 		if res.Trace.HTTPResponse.StatusCode >= 400 {
-			fmt.Println(target)
+			if target != nil {
+				fmt.Printf("\033[31m%s\033[0m%s", target, "\n")
+			}
 		}
 
-		fmt.Println("Status ", res.Trace.HTTPResponse.StatusCode)
+		fmt.Printf("\033[32m%s%d\033[0m%s", "Status ", res.Trace.HTTPResponse.StatusCode, "\n")
 		totalRequest++
 		avgDuration += res.Trace.Duration
 		avgDNSLookup += res.Trace.DNSDuration
@@ -106,14 +108,17 @@ func (g *Gubrak) Run() {
 	avgRequestDuration = avgRequestDuration / time.Duration(totalRequest)
 	avgGotResponseDuration = avgGotResponseDuration / time.Duration(totalRequest)
 	avgDelayBetweekRequestToResponse = avgDelayBetweekRequestToResponse / time.Duration(totalRequest)
-	fmt.Println("========================")
+
+	fmt.Printf("\033[32m%s\033[0m", "========================\n")
+
 	elapsed := time.Since(start)
-	fmt.Println("Total all time: ", elapsed)
-	fmt.Println("Average duration/request", avgDuration)
-	fmt.Println("Average time to DNSLookup/request", avgDNSLookup)
-	fmt.Println("Average time to open a connection/request", avgConnectionDuration)
-	fmt.Println("Average time to build a request/request", avgRequestDuration)
-	fmt.Println("Average time to get response/request", avgGotResponseDuration)
-	fmt.Println("Average time delay between request made and response got/request", avgDelayBetweekRequestToResponse)
-	fmt.Printf("Total request succeed : %d of : %d\n", totalRequest, g.args.RequestNum)
+
+	fmt.Printf("\033[33m%s%.3f%s\033[0m%s", "Total all time: ", elapsed.Seconds(), " seconds", "\n")
+	fmt.Printf("\033[33m%s%.3f%s\033[0m%s", "Average duration/request ", avgDuration.Seconds(), " seconds", "\n")
+	fmt.Printf("\033[33m%s%.3f%s\033[0m%s", "Average time to DNSLookup/request ", avgDNSLookup.Seconds(), " seconds", "\n")
+	fmt.Printf("\033[33m%s%.3f%s\033[0m%s", "Average time to open a connection/request ", avgConnectionDuration.Seconds(), " seconds", "\n")
+	fmt.Printf("\033[33m%s%.3f%s\033[0m%s", "Average time to build a request/request ", avgRequestDuration.Seconds(), " seconds", "\n")
+	fmt.Printf("\033[33m%s%.3f%s\033[0m%s", "Average time to get response/request ", avgGotResponseDuration.Seconds(), " seconds", "\n")
+	fmt.Printf("\033[33m%s%.3f%s\033[0m%s", "Average time delay between request made and response got/request ", avgDelayBetweekRequestToResponse.Seconds(), " seconds", "\n")
+	fmt.Printf("\033[32m%s%d%s%d\033[0m%s", "Total request succeed : ", totalRequest, " of ", g.args.RequestNum, "\n")
 }
