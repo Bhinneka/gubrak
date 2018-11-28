@@ -1,7 +1,5 @@
 package gubrak
 
-import "net/http"
-
 const (
 	// DefaultRequestNum total default concurrent request
 	DefaultRequestNum uint64 = 10
@@ -17,6 +15,6 @@ type Result struct {
 
 // Output struct for Scan returns
 type Output struct {
-	Response *http.Response
-	Error    error
+	Trace *Trace
+	Error error
 }
