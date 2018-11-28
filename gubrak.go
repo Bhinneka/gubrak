@@ -52,8 +52,6 @@ func (g *Gubrak) Run() {
 
 	jobs := make(chan Output, g.args.RequestNum)
 	results := make(chan Output, g.args.RequestNum)
-	defer close(jobs)
-	defer close(results)
 
 	for x := uint64(1); x <= g.args.RequestNum; x++ {
 		go Consume(x, jobs, results)
@@ -82,17 +80,15 @@ func (g *Gubrak) Run() {
 		// decode body into target
 		_ = json.NewDecoder(res.Trace.HTTPResponse.Body).Decode(&target)
 
-		//TODO
-		// - formated output
-		// -
-		// print result
 		if res.Trace.HTTPResponse.StatusCode >= 400 {
+			fmt.Printf("\033[31m%s%d\033[0m%s", "Status ", res.Trace.HTTPResponse.StatusCode, "\n")
 			if target != nil {
 				fmt.Printf("\033[31m%s\033[0m%s", target, "\n")
 			}
+		} else {
+			fmt.Printf("\033[32m%s%d\033[0m%s", "Status ", res.Trace.HTTPResponse.StatusCode, "\n")
 		}
 
-		fmt.Printf("\033[32m%s%d\033[0m%s", "Status ", res.Trace.HTTPResponse.StatusCode, "\n")
 		totalRequest++
 		avgDuration += res.Trace.Duration
 		avgDNSLookup += res.Trace.DNSDuration
