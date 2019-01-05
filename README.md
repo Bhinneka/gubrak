@@ -29,7 +29,8 @@ $ go install github.com/Bhinneka/gubrak/cmd/gubrak
 $ gubrak --version
 ```
 
-- create `config.json` file with signature like this:
+#### Send `JSON` payload
+create `config.json` file with signature like this for `"Content-Type" : application/json`:
 ```json
 {
     "url": "http://example.com",
@@ -45,6 +46,20 @@ $ gubrak --version
 			"body": "Hello There"
 		}
 	}
+}
+```
+
+#### Send `form-urlencoded` payload
+create `config.json` file with signature like this for `"Content-Type":  "application/x-www-form-urlencoded"`:
+```json
+{
+    "url": "http://example.com",
+    "headers": {
+        "Authorization": "Basic exnfekeoeoeojsjalaljahhd",
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+    },
+	"payload": "from=Bob&content=hello from bob"
 }
 ```
 
