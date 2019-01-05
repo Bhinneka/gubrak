@@ -20,6 +20,11 @@ an experimental `Command Line performance testing tool` for your services. What 
 $ brew install Bhinneka/tool/gubrak
 ```
 
+- Update from `Homebrew`
+```shell
+$ brew upgrade Bhinneka/tool/gubrak
+```
+
 - Install `binary` from source
 ```shell
 $ go get github.com/Bhinneka/gubrak
@@ -59,7 +64,7 @@ create `config.json` file with signature like this for `"Content-Type":  "applic
         "Content-Type": "application/json",
         "Accept": "application/json"
     },
-	"payload": "from=Bob&content=hello from bob"
+	"payload": "from=Bob&content=hello"
 }
 ```
 
