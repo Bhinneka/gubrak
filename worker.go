@@ -3,6 +3,8 @@ package gubrak
 import (
 	"bytes"
 	"encoding/json"
+	"io"
+	"reflect"
 )
 
 // Scan func will doing the HTTP call to defined request url within the request body if exists
@@ -20,15 +22,24 @@ func Scan(jobs chan<- Output,
 
 	for i = 1; i <= requestSize; i++ {
 
-		pl, _ := json.Marshal(payload)
+		// initiate *bytes.Buffer
+		var buf *bytes.Buffer
 
-		p := bytes.NewBuffer(pl)
+		//check whether the payload string or object
+		if reflect.TypeOf(payload).String() == "string" {
+			pl := payload.(string)
+			buf = bytes.NewBufferString(pl)
+		} else {
+			pl, _ := json.Marshal(payload)
+			buf = bytes.NewBuffer(pl)
+		}
 
 		// go routine using closure, This allows each goroutine to have its own copy of  p (*bytes.Buffer)
-		go func(p *bytes.Buffer) {
-			traceResult, err := client.do(method, path, p, headers)
+		// p *bytes.Buffer
+		go func(r io.Reader) {
+			traceResult, err := client.do(method, path, buf, headers)
 			jobs <- Output{Trace: traceResult, Error: err}
-		}(p)
+		}(buf)
 	}
 
 }
